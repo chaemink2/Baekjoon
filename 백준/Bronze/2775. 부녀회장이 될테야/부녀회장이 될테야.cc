@@ -1,0 +1,27 @@
+#include<iostream>
+using namespace std;
+
+int T;
+int apt[102][16];
+
+int main()
+{
+	cin >> T;
+	for (int tc = 1; tc <= T; tc++)
+	{
+        int k, n;
+		cin >> k >> n;
+
+        for (int i = 0; i <= k; i++) 
+        {
+            for (int j = 1; j <= n; j++) 
+            {
+                if (i == 0) apt[0][j] = j;    
+                else if (j == 1) apt[i][1] = 1;
+                else apt[i][j] = apt[i][j - 1] + apt[i - 1][j];
+            }
+        }
+        cout << apt[k][n] << "\n";
+	}
+    return 0;
+}
