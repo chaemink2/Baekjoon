@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int arr[1000010];
+long long arr[1000010];
 
 int main(void)
 {
@@ -11,33 +11,31 @@ int main(void)
 	cin.tie(NULL);
 	cout.tie(NULL);
 
-	long long N, M; cin >> N >> M;
-	for (long long i = 0; i < N; i++)
+	// input
+	int N, M; cin >> N >> M;
+	long long max_height = 0;
+	for (int i = 0; i < N; i++)
 	{
 		cin >> arr[i];
+		max_height = max(max_height, arr[i]);
 	}
-	sort(arr, arr + N);
+
+	// binary Search
 	long long start = 0;
-	long long end = arr[N - 1];
+	long long end = max_height;
 	long long ans = 0;
-	while (1)
+	while (start <= end)
 	{
-		long long h = (start + end) / 2;
+		long long mid = (start + end) / 2;
 		long long cnt = 0;
 		for (int i = 0; i < N; i++)
-		{
-			if ((arr[i] - h) >= 0) cnt += (arr[i] - h);
-//			else cnt = cnt;
-		}
+			if ((arr[i] - mid) >= 0) cnt += (arr[i] - mid);
 		
 		if (cnt >= M) {
-			ans = max(ans, h);
-			start = h + 1;
+			ans = max(ans, mid);
+			start = mid + 1;
 		}
-		else if (cnt < M) end = h - 1;
-		//else break;
-
-		if (start > end) break;
+		else end = mid - 1;
 	}
 
 	cout << ans;
