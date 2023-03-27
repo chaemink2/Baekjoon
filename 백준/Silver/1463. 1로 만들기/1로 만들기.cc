@@ -1,32 +1,22 @@
-#include<iostream>
-#include<climits>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 using namespace std;
-
-int ans = INT_MAX;
-
-void solution(int x, int cnt)
-{
-	if (ans <= cnt) return;
-	if (x == 1)
-	{
-		ans = cnt;
-		return;
-	}
-	if (x <= 0) return;
-
-	if (x % 3 == 0) solution(x / 3, cnt + 1);
-	if (x % 2 == 0) solution(x / 2, cnt + 1);
-	solution(x - 1, cnt + 1);
-}
 
 int main()
 {
-	int x = 0; cin >> x;
-	int cnt = 0;
+	int n; cin >> n;
+	vector<int> dp(n+1);
+	dp[1] = 0;
 
-	solution(x, cnt);
+	for (int i = 2; i < n + 1; i++)
+	{
+		dp[i] = dp[i - 1] + 1;
+		if (i % 3 == 0) dp[i] = min(dp[i], dp[i / 3] + 1);
+		if (i % 2 == 0) dp[i] = min(dp[i], dp[i / 2] + 1);
+	}
 
-	cout << ans;
+	cout << dp[n];
 
 	return 0;
 }
